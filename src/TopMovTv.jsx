@@ -19,6 +19,7 @@ function TopMovTv() {
         const response=await axios.get(`https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1&api_key=${API_KEY}`);
         setShowData(response.data.results)
 
+
      }
 
      useEffect(()=>{
@@ -37,6 +38,9 @@ function TopMovTv() {
                <div className="images" key={item.id}>
                 <img src={img_base_path+item.poster_path} alt="" />
                 <h3>{item.title || item.name}</h3>
+                <h5>{item.release_date || item.first_air_date}</h5>
+                <p>{item.genre_ids[1] || item.genre_ids}</p>
+
                </div>
             )
           })
