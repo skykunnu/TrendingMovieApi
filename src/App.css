@@ -19,8 +19,12 @@ button{
   width: 100%;
   overflow-y: hidden;
   overflow-x: visible;
+
 }
 
+.show::-webkit-scrollbar{
+  display: none;
+}
 .show .images {
   flex: 1 1 calc(25% - 1rem);
   width: 25%; 
