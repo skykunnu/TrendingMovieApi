@@ -12,12 +12,11 @@ function PopMovTv() {
 
      async function popMov(){
         const response=await axios.get(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${API_KEY}`);
-        setShowData(response.data.results)
+      setShowData(response.data.results)
      }
 
      async function popTv(){
         const response=await axios.get(`https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=${API_KEY}`);
-        console.log(response.data.results)
         setShowData(response.data.results)
 
      }
@@ -38,6 +37,9 @@ function PopMovTv() {
                <div className="images" key={item.id}>
                 <img src={img_base_path+item.poster_path} alt="" />
                 <h3>{item.title || item.name}</h3>
+                <h5>{item.release_date || item.first_air_date}</h5>
+                <p>{item.genre_ids[0] || item.genre_ids || item.id}</p>
+
                </div>
             )
           })
