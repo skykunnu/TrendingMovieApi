@@ -62,7 +62,7 @@ function PopMovTv() {
                <div className="images" key={item.id}>
                 <img src={img_base_path+item.poster_path} alt="" />
                 <h3>{item.title || item.name}</h3>
-                <h5>{new Date(item.release_date).toLocaleDateString('en-GB') || new Date(item.first_air_date).toLocaleDateString('en-GB')}</h5>
+                <h5>{item.release_date ? new Date(item.release_date).toDateString() : new Date(item.first_air_date).toDateString()}</h5>
                 <p>{getGenre(item.genre_ids)}</p>
 
                </div>
