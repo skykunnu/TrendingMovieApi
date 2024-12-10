@@ -3,34 +3,58 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-function TopMovTv() {
+function PopMovTv() {
     const [showData,setShowData]=useState("");
+    const [genre,setGenre]=useState([])
 
     const API_KEY = import.meta.env.VITE_API_KEY
     const img_base_path="https://image.tmdb.org/t/p/original"
 
 
-     async function TopMov(){
-        const response=await axios.get(`https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=${API_KEY}`);
-        setShowData(response.data.results)
+     async function popMov(){
+        const response=await axios.get(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${API_KEY}`);
+      setShowData(response.data.results)
      }
 
-     async function TopTv(){
-        const response=await axios.get(`https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1&api_key=${API_KEY}`);
+     async function popTv(){
+        const response=await axios.get(`https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=${API_KEY}`);
         setShowData(response.data.results)
 
-
      }
+
+     async function Genre() {
+      const response = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=${API_KEY}`)
+      setGenre(response.data.genres)
+      console.log(response.data.genres);
+    }
+    
+    
+    function getGenre(genreArr){
+    return genreArr.map((id)=>{
+    const genreObj=genre.find((g)=>g.id===id);
+    return genreObj ? genreObj.name : null;
+    })
+    .filter(Boolean)
+    .join(", ");
+    }
+    
+
+
+
+
+
+
 
      useEffect(()=>{
-      TopMov()
+      popMov()
+      Genre()
      },[])
 
 
   return (
     <div>
-        <button onClick={TopMov}>Top-Rated Movie</button>
-        <button onClick={TopTv}>Top-Rated TV-Show</button>
+        <button onClick={popMov}>Popular Movie</button>
+        <button onClick={popTv}>Popular TV-Show</button>
         <div className="show">
           {showData.length > 0 &&
             showData.map((item)=>{
@@ -38,8 +62,8 @@ function TopMovTv() {
                <div className="images" key={item.id}>
                 <img src={img_base_path+item.poster_path} alt="" />
                 <h3>{item.title || item.name}</h3>
-                <h5>{new Date(item.release_date).toDateString() || new Date(item.first_air_date).toDateString()}</h5>
-                <p>{item.genre_ids[1] || item.genre_ids}</p>
+                <h5>{new Date(item.release_date).toLocaleDateString('en-GB') || new Date(item.first_air_date).toLocaleDateString('en-GB')}</h5>
+                <p>{getGenre(item.genre_ids)}</p>
 
                </div>
             )
@@ -50,4 +74,4 @@ function TopMovTv() {
   )
 }
 
-export default TopMovTv
+export default PopMovTv
