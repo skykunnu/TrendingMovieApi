@@ -41,7 +41,7 @@ day()
                <div className="images" key={item.id}>
                 <img src={img_base_path+item.poster_path} alt="" />
                 <h3>{item.title}</h3>
-                <h5>{item.release_date}</h5>
+                <h5>{new Date(item.release_date).toDateString()}</h5>
                 <p>{item.genre_ids[0]}</p>
                </div>
             )
